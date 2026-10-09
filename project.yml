@@ -1,0 +1,107 @@
+# Marquee for iPhone, iPad, Apple TV and Mac — project definition for XcodeGen.
+# On a Mac:  brew install xcodegen && xcodegen generate && open Marquee.xcodeproj
+# No Mac? Push to GitHub and the "Build iOS app" action makes Marquee.ipa and MarqueeTV.ipa for you.
+name: Marquee
+options:
+  bundleIdPrefix: com.adam
+  deploymentTarget:
+    iOS: "16.0"
+    tvOS: "16.0"
+    macOS: "13.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    MARKETING_VERSION: "1.2.0"
+    CURRENT_PROJECT_VERSION: "3"
+    SWIFT_VERSION: "5.0"
+    # ---- Your Marquee server, built into the apps so nobody has to type it ----
+    # Home: the address on your Wi-Fi.  Away: your Tailscale address, e.g. "zimaos.tail1234.ts.net"
+    # (leave away empty and the apps learn it from the server: Marquee → Settings → Server addresses).
+    MARQUEE_HOME: "192.168.80.35:8420"
+    MARQUEE_AWAY: ""
+targets:
+  # iPhone & iPad
+  Marquee:
+    type: application
+    platform: iOS
+    sources:
+      - path: Marquee
+      - path: Shared
+      - path: Common
+    dependencies:
+      - target: MarqueeWidgets
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adam.marquee
+        PRODUCT_NAME: Marquee
+        INFOPLIST_FILE: Marquee/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: Marquee/Marquee.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_BITCODE: NO
+    scheme: {}
+
+  # Home-screen widgets (Continue watching, New on Marquee)
+  MarqueeWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: MarqueeWidgets
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adam.marquee.widgets
+        PRODUCT_NAME: MarqueeWidgets
+        INFOPLIST_FILE: MarqueeWidgets/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: MarqueeWidgets/MarqueeWidgets.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+
+  # Apple TV
+  MarqueeTV:
+    type: application
+    platform: tvOS
+    sources:
+      - path: MarqueeTV
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adam.marquee.tv
+        PRODUCT_NAME: Marquee
+        INFOPLIST_FILE: MarqueeTV/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        TARGETED_DEVICE_FAMILY: "3"
+        ASSETCATALOG_COMPILER_APPICON_NAME: "App Icon & Top Shelf Image"
+        CODE_SIGN_STYLE: Automatic
+    scheme: {}
+
+  # Mac (MacBook, iMac, Mac mini) — its own window with a Dock icon
+  MarqueeMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: MarqueeMac
+      - path: Common
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adam.marquee.mac
+        PRODUCT_NAME: Marquee
+        INFOPLIST_FILE: MarqueeMac/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # "Sign to run locally": no Apple account needed to build or run it
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        DEVELOPMENT_TEAM: ""
+        ENABLE_HARDENED_RUNTIME: NO
+        ENABLE_APP_SANDBOX: NO
+        COMBINE_HIDPI_IMAGES: YES
+    scheme: {}

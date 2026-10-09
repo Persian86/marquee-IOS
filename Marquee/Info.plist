@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key><string>en</string>
+	<key>CFBundleDisplayName</key><string>Marquee</string>
+	<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+	<key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key><string>APPL</string>
+	<key>CFBundleShortVersionString</key><string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key><string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key><true/>
+	<key>ITSAppUsesNonExemptEncryption</key><false/>
+
+	<!-- marquee://item/42 links open straight to that page -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key><string>com.adam.marquee</string>
+			<key>CFBundleURLSchemes</key><array><string>marquee</string></array>
+		</dict>
+	</array>
+
+	<!-- Your server's addresses, built in from project.yml (MARQUEE_HOME / MARQUEE_AWAY) -->
+	<key>MarqueeHome</key><string>$(MARQUEE_HOME)</string>
+	<key>MarqueeAway</key><string>$(MARQUEE_AWAY)</string>
+
+	<!-- Your server is on your home network or Tailscale, often plain http:// — allow that -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key><true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Marquee connects to your media server on your home network.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose a picture for a profile photo or poster.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a picture for a profile photo.</string>
+
+	<!-- Music and podcasts keep playing with the screen off; downloads and new-arrival checks run in the background -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>fetch</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array><string>com.adam.marquee.refresh</string></array>
+
+	<!-- Downloaded movies also show in the Files app (On My iPhone → Marquee) -->
+	<key>UIFileSharingEnabled</key><true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key><true/>
+
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key><false/>
+	</dict>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key><string>LaunchBackground</string>
+		<key>UIImageName</key><string>Logo</string>
+		<key>UIImageRespectsSafeAreaInsets</key><true/>
+	</dict>
+	<key>UIStatusBarStyle</key><string>UIStatusBarStyleLightContent</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key><true/>
+	<key>UIUserInterfaceStyle</key><string>Dark</string>
+	<key>UIRequiresFullScreen</key><false/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>
